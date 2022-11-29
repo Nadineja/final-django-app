@@ -98,9 +98,8 @@ class Enrollment(models.Model):
 #  Create a Question Model with:
 class Question(models.Model):
     question = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    question-content = models.TextField()
-    question = models.ManyToManyField(Question)
-    question-grade = models.IntegerField(default=0)
+    content = models.TextField()
+    grade = models.IntegerField(default=0)
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
@@ -123,10 +122,9 @@ class Question(models.Model):
 
 # Create a Choice Model with:
 class Choice(models.Model):
-    initial-question = models.ForeignKey(Question,on_delete= models.CASCADE )
+    question = models.ForeignKey(Question,on_delete= models.CASCADE )
     choice_text = models.TextField()
-    is-correct = models.BooleanField(default = False)
-    choice = models.ManyToManyField(Question)
+    is_correct = models.BooleanField(default = False)
 
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
@@ -136,7 +134,7 @@ class Choice(models.Model):
 # class Choice(models.Model):
 
 # The submission model
-Class Submission(models.Model):
+class Submission(models.Model):
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
     
