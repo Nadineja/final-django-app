@@ -20,7 +20,7 @@ class Instructor(models.Model):
     total_learners = models.IntegerField()
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user}"
 
 
 # Learner model
@@ -48,8 +48,8 @@ class Learner(models.Model):
     social_link = models.URLField(max_length=200)
 
     def __str__(self):
-        return self.user.username + "," + \
-               self.occupation
+        return f"{self.user}" + "," + \
+               f"{self.occupation}"
 
 
 # Course model
@@ -64,8 +64,8 @@ class Course(models.Model):
     is_enrolled = False
 
     def __str__(self):
-        return "Name: " + self.name + "," + \
-               "Description: " + self.description
+        return "Name: " + f'{ self.name}' + "," + \
+               "Description: " + f"{self.description}"
 
 
 # Lesson model
@@ -97,9 +97,13 @@ class Enrollment(models.Model):
 
 #  Create a Question Model with:
 class Question(models.Model):
-    question = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    content = models.TextField()
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    content = models.CharField(max_length=300, default="question text")
     grade = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.content}"
+
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
     # Has a grade point for each question
@@ -122,10 +126,12 @@ class Question(models.Model):
 
 # Create a Choice Model with:
 class Choice(models.Model):
-    question = models.ForeignKey(Question,on_delete= models.CASCADE )
-    choice_text = models.TextField()
-    is_correct = models.BooleanField(default = False)
+    question = models.ForeignKey(Question, on_delete= models.CASCADE )
+    choice_text = models.CharField(max_length=300, default=" Choose an answer")
+    is_correct = models.BooleanField(default=True)
 
+    def __str__(self):
+        return f"{self.choice_text}"
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
     # Choice content
