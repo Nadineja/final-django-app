@@ -20,7 +20,8 @@ class Instructor(models.Model):
     total_learners = models.IntegerField()
 
     def __str__(self):
-        return f"{self.user}"
+        return self.user.username
+
 
 
 # Learner model
@@ -48,8 +49,8 @@ class Learner(models.Model):
     social_link = models.URLField(max_length=200)
 
     def __str__(self):
-        return f"{self.user}" + "," + \
-               f"{self.occupation}"
+        return self.user.username + "," + \
+               self.occupation
 
 
 # Course model
@@ -64,8 +65,8 @@ class Course(models.Model):
     is_enrolled = False
 
     def __str__(self):
-        return "Name: " + f'{ self.name}' + "," + \
-               "Description: " + f"{self.description}"
+        return "Name: " + self.name + "," + \
+               "Description: " + self.description
 
 
 # Lesson model
@@ -97,12 +98,12 @@ class Enrollment(models.Model):
 
 #  Create a Question Model with:
 class Question(models.Model):
-    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
-    content = models.CharField(max_length=300, default="question text")
+    lesson_id = models.ForeignKey(Lesson, on_delete=models.CASCADE)
+    question_text = models.CharField(max_length=300, default="question text")
     grade = models.IntegerField(default=0)
 
     def __str__(self):
-        return f"{self.content}"
+        return self.question_text
 
     # Used to persist question content for a course
     # Has a One-To-Many (or Many-To-Many if you want to reuse questions) relationship with course
@@ -126,12 +127,12 @@ class Question(models.Model):
 
 # Create a Choice Model with:
 class Choice(models.Model):
-    question = models.ForeignKey(Question, on_delete= models.CASCADE )
+    question_id = models.ForeignKey(Question, on_delete= models.CASCADE )
     choice_text = models.CharField(max_length=300, default=" Choose an answer")
     is_correct = models.BooleanField(default=True)
 
     def __str__(self):
-        return f"{self.choice_text}"
+        return self.choice_text
     # Used to persist choice content for a question
     # One-To-Many (or Many-To-Many if you want to reuse choices) relationship with Question
     # Choice content
