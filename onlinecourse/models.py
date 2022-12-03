@@ -55,6 +55,7 @@ class Learner(models.Model):
 
 # Course model
 class Course(models.Model):
+    objects = None
     name = models.CharField(null=False, max_length=30, default='online course')
     image = models.ImageField(upload_to='course_images/')
     description = models.CharField(max_length=1000)
@@ -81,6 +82,7 @@ class Lesson(models.Model):
 # <HINT> Once a user enrolled a class, an enrollment entry should be created between the user and course
 # And we could use the enrollment to track information such as exam submissions
 class Enrollment(models.Model):
+    objects = None
     AUDIT = 'audit'
     HONOR = 'honor'
     BETA = 'BETA'
@@ -142,6 +144,7 @@ class Choice(models.Model):
 
 # The submission model
 class Submission(models.Model):
+    objects = None
     enrollment = models.ForeignKey(Enrollment, on_delete=models.CASCADE)
     choices = models.ManyToManyField(Choice)
     
